@@ -14,6 +14,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'likeCount')->textInput() ?>
 
+    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'createdAt')->textInput() ?>
 
     <div class="form-group">

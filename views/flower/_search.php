@@ -19,6 +19,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'likeCount') ?>
 
+    <?= $form->field($model, 'title') ?>
+
     <?= $form->field($model, 'createdAt') ?>
 
     <div class="form-group">

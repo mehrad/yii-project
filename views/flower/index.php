@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'likeCount',
+            'title',
             'createdAt',
 
             ['class' => 'yii\grid\ActionColumn'],

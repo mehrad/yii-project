@@ -17,9 +17,6 @@ use Yii;
  */
 class Flower extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'flower';
@@ -31,7 +28,7 @@ class Flower extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['likeCount', 'createdAt'], 'integer'],
+            [['title'], 'required'],
             [['title'], 'string', 'max' => 255],
         ];
     }
@@ -63,5 +60,10 @@ class Flower extends \yii\db\ActiveRecord
     public function getFlowerKeywords()
     {
         return $this->hasMany(FlowerKeyword::className(), ['flowerId' => 'id']);
+    }
+
+    public function getColor()
+    {
+        return 'red';
     }
 }
