@@ -35,12 +35,6 @@ class FlowerController extends Controller
      */
     public function actionIndex()
     {
-        $ar = new Flower;
-        die(dd($ar));
-        $narges = Flower::find()->where(['id' => 2])->one();
-        echo $narges->color;
-        die();
-        $comments = $narges->comments;
         $searchModel = new FlowerSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

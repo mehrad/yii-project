@@ -61,9 +61,4 @@ class Flower extends \yii\db\ActiveRecord
     {
         return $this->hasMany(FlowerKeyword::className(), ['flowerId' => 'id']);
     }
-
-    public function getColor()
-    {
-        return 'red';
-    }
 }

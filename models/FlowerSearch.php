@@ -18,7 +18,7 @@ class FlowerSearch extends Flower
     public function rules()
     {
         return [
-            [['id', 'likeCount', 'createdAt'], 'integer'],
+            [['id'], 'integer'],
             [['title'], 'safe'],
         ];
     }
@@ -58,13 +58,11 @@ class FlowerSearch extends Flower
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'likeCount' => $this->likeCount,
-            'createdAt' => $this->createdAt,
-        ]);
+        // $query->andFilterWhere([
+        //     'id' => $this->id
+        // ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title]);
+        $query->andWhere(['like', 'title', $this->title]);
 
         return $dataProvider;
     }
