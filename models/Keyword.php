@@ -8,8 +8,8 @@ use Yii;
  * This is the model class for table "keyword".
  *
  * @property integer $id
- * @property string $name
- * @property string $createdAt
+ * @property string $title
+ * @property integer $createdAT
  *
  * @property FlowerKeyword[] $flowerKeywords
  */
@@ -29,8 +29,8 @@ class Keyword extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['createdAt'], 'safe'],
-            [['name'], 'string', 'max' => 255],
+            [['createdAT'], 'integer'],
+            [['title'], 'string', 'max' => 255],
         ];
     }
 
@@ -41,8 +41,8 @@ class Keyword extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'createdAt' => 'Created At',
+            'title' => 'Title',
+            'createdAT' => 'Created At',
         ];
     }
 

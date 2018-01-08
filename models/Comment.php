@@ -11,7 +11,7 @@ use Yii;
  * @property integer $flowerId
  * @property string $title
  * @property string $body
- * @property string $createdAt
+ * @property integer $createdAt
  *
  * @property Flower $flower
  */
@@ -32,9 +32,8 @@ class Comment extends \yii\db\ActiveRecord
     {
         return [
             [['flowerId'], 'required'],
-            [['flowerId'], 'integer'],
+            [['flowerId', 'createdAt'], 'integer'],
             [['body'], 'string'],
-            [['createdAt'], 'safe'],
             [['title'], 'string', 'max' => 255],
             [['flowerId'], 'exist', 'skipOnError' => true, 'targetClass' => Flower::className(), 'targetAttribute' => ['flowerId' => 'id']],
         ];

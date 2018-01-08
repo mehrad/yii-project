@@ -9,7 +9,8 @@ use Yii;
  *
  * @property integer $id
  * @property integer $likeCount
- * @property string $createdAt
+ * @property string $title
+ * @property integer $createdAt
  *
  * @property Comment[] $comments
  * @property FlowerKeyword[] $flowerKeywords
@@ -30,8 +31,8 @@ class Flower extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['likeCount'], 'integer'],
-            [['createdAt'], 'safe'],
+            [['likeCount', 'createdAt'], 'integer'],
+            [['title'], 'string', 'max' => 255],
         ];
     }
 
@@ -43,6 +44,7 @@ class Flower extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'likeCount' => 'Like Count',
+            'title' => 'Title',
             'createdAt' => 'Created At',
         ];
     }
