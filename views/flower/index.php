@@ -18,12 +18,21 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Flower', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php Pjax::begin(); ?>    
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
+            [
+                // 'attribute' => 'title',
+                'label' => 'عنوان',
+                'format' => 'datetime',
+                'filter' => false,
+                'value' => function($model) {
+                    return time();
+                }
+            ],
             'id',
             'likeCount',
             'title',

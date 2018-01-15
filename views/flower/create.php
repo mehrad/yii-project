@@ -3,10 +3,9 @@
 use yii\helpers\Html;
 
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Flower */
 
-$this->title = 'Create Flower';
+
+$this->title = 'ایجاد گل ها ';
 $this->params['breadcrumbs'][] = ['label' => 'Flowers', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -16,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'keywords' => $keywords,
     ]) ?>
 
 </div>

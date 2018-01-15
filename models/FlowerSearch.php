@@ -47,6 +47,9 @@ class FlowerSearch extends Flower
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
         $this->load($params);
@@ -57,12 +60,12 @@ class FlowerSearch extends Flower
             return $dataProvider;
         }
 
-        // grid filtering conditions
-        // $query->andFilterWhere([
-        //     'id' => $this->id
-        // ]);
+        //grid filtering conditions
+        $query->andFilterWhere([
+            'id' => $this->id
+        ]);
 
-        $query->andWhere(['like', 'title', $this->title]);
+        $query->andFilterWhere(['like%', 'title', $this->title]);
 
         return $dataProvider;
     }

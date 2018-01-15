@@ -4,11 +4,12 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Flower;
+use app\models\Keywords;
 use app\models\FlowerSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\helpers\ArrayHelper;
 /**
  * FlowerController implements the CRUD actions for Flower model.
  */
@@ -51,8 +52,12 @@ class FlowerController extends Controller
      */
     public function actionView($id)
     {
+        $flower = new Flower();
+        $keywords = $flower->getKeywords()->all();
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'keywords' => $keywords,
         ]);
     }
 
@@ -63,13 +68,23 @@ class FlowerController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Flower();
+        $flower = new Flower();
+        $keywords = $flower->getKeywords()->all();
+        
+        if ($flower->load(Yii::$app->request->post()) && $flower->save()) {
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            foreach ($keywords as $keyword) {
+                $model->link('keywords', $keyword);
+            }
+        
+            return $this->redirect(['view',
+             'id' => $flower->id,
+             'keywords' => $keywords,
+         ]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                'model' => $flower,
+                'keywords' => $keywords,
             ]);
         }
     }
@@ -83,12 +98,19 @@ class FlowerController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $keywords = $model->getKeywords()->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+            foreach ($keywords as $keyword) {
+                $model->link('keywords', $keyword);
+            }
+            
+            return $this->redirect(['view', 'id' => $model->id, 'keywords' => $keywords]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'keywords' => $keywords,
             ]);
         }
     }

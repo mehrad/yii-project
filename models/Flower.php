@@ -30,6 +30,7 @@ class Flower extends \yii\db\ActiveRecord
         return [
             [['title'], 'required'],
             [['title'], 'string', 'max' => 255],
+            [['keywordId'], 'safe'],
         ];
     }
 
@@ -57,8 +58,22 @@ class Flower extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFlowerKeywords()
+    public function getKeywords()
     {
-        return $this->hasMany(FlowerKeyword::className(), ['flowerId' => 'id']);
+        return $this->hasMany(Keyword::className(), ['id' => 'keywordId'])
+             ->viaTable('flower_keyword', ['flowerId' => 'id']);
     }
+
+    public function beforeSave($insert) 
+    {
+        if (!parent::beforeSave($insert)) {
+             return false;
+        }
+        if ($insert) {
+            $this->createdAt = time();
+        }
+
+        return true;
+    }
+
 }
