@@ -30,7 +30,7 @@ class Flower extends \yii\db\ActiveRecord
         return [
             [['title'], 'required'],
             [['title'], 'string', 'max' => 255],
-            [['keywordId'], 'safe'],
+            [['keywords'], 'safe'],
         ];
     }
 
@@ -75,5 +75,4 @@ class Flower extends \yii\db\ActiveRecord
 
         return true;
     }
-
 }

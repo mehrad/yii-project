@@ -12,11 +12,10 @@ use kartik\select2\Select2
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-    
-    <?= Select2::widget([
-    'name' => 'tags',
-    'value' => $keywords, // initial value
-    'data' => $keywords,
+    <?=  Select2::widget([
+    'name' => 'keywords',
+    'value' => $keywordsString, // initial value
+    'data' => $keywordsString,
     'maintainOrder' => true,
     'toggleAllSettings' => [
         'selectLabel' => '<i class="glyphicon glyphicon-ok-circle"></i> Tag All',

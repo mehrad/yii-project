@@ -49,8 +49,9 @@ class Keyword extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFlowerKeywords()
+    public function getFlowers()
     {
-        return $this->hasMany(FlowerKeyword::className(), ['keywordId' => 'id']);
+        return $this->hasMany(Flower::className(), ['id' => 'flowerId'])
+            ->viaTable('flower_keyword', ['keywordId' => 'id']);
     }
 }

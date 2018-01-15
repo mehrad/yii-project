@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Flower;
-use app\models\Keywords;
+use app\models\Keyword;
 use app\models\FlowerSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -70,13 +70,22 @@ class FlowerController extends Controller
     {
         $flower = new Flower();
         $keywords = $flower->getKeywords()->all();
+
+        $keywordsId = [];
+        $keywordsString = [];
+
+        foreach ($keywords as $key) {
+            array_push($keywordsId, $key->id);
+            array_push($keywordsString, $key->title);
+        }
         
         if ($flower->load(Yii::$app->request->post()) && $flower->save()) {
-
-            foreach ($keywords as $keyword) {
-                $model->link('keywords', $keyword);
+            foreach (Yii::$app->request->post('keywords') as $keywordTag) {
+                $keyword = new keyword();
+                $keyword->title = $keywordTag;
+                $keyword->save();
+                $flower->link('keywords', $keyword);
             }
-        
             return $this->redirect(['view',
              'id' => $flower->id,
              'keywords' => $keywords,
@@ -84,7 +93,8 @@ class FlowerController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $flower,
-                'keywords' => $keywords,
+                'keywordsId' => $keywordsId,
+                'keywordsString' => $keywordsString,
             ]);
         }
     }
@@ -99,18 +109,28 @@ class FlowerController extends Controller
     {
         $model = $this->findModel($id);
         $keywords = $model->getKeywords()->all();
+        $keywordsId = [];
+        $keywordsString = [];
 
+        foreach ($keywords as $key) {
+            array_push($keywordsId, $key->id);
+            array_push($keywordsString, $key->title);
+        }
+    
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
-            foreach ($keywords as $keyword) {
+            foreach (Yii::$app->request->post('keywords') as $keywordTag) {
+                $keyword = new keyword();
+                $keyword->title = $keywordTag;
+                $keyword->save();
                 $model->link('keywords', $keyword);
             }
-            
-            return $this->redirect(['view', 'id' => $model->id, 'keywords' => $keywords]);
+
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'keywords' => $keywords,
+                'keywordsId' => $keywordsId,
+                'keywordsString' => $keywordsString,
             ]);
         }
     }
