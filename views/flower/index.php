@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Flower', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('ایجاد گل', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin(); ?>    
     <?= GridView::widget([
@@ -32,8 +32,6 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'تگ ها',
                 'value' => function($model) { 
-                    // if (!empty($model->keywords))
-                    //     dd($model->keywords);
                     return  implode(',', ArrayHelper::getColumn($model->keywords,'title'));
                 },
                 
