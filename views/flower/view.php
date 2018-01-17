@@ -34,22 +34,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'likeCount',
             'title',
             'createdAt:datetime',
+            [
+                'label' => 'تگ ها',
+                'value' => implode(', ', $keywords),
+            ]
 
         ],
     ]) ?>
- <?= 
-    Select2::widget([
-    'name' => 'keywords',
-    'value' => $keywords, // initial value
-    'data' => $keywords,
-    'maintainOrder' => true,
-    'disabled' => true,
-    'readonly' => true,
-    'options' => ['placeholder' => 'تگی موجود نیست', 'multiple' => true], 
-    'pluginOptions' => [
-        'tags' => true,
-        'maximumInputLength' => 10
-    ],
-]); ?>
 
 </div>

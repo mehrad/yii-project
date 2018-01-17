@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\FlowerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -24,19 +25,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            [
-                // 'attribute' => 'title',
-                'label' => 'تگ ها',
-                'format' => 'datetime',
-                'filter' => false,
-                'value' => function($model) {
-                    return time();
-                }
-            ],
             'id',
             'likeCount',
             'title',
             'createdAt:datetime',
+            [
+                'label' => 'تگ ها',
+                'value' => function($model) { 
+                    // if (!empty($model->keywords))
+                    //     dd($model->keywords);
+                    return  implode(',', ArrayHelper::getColumn($model->keywords,'title'));
+                },
+                
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

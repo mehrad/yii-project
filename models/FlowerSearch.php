@@ -41,7 +41,7 @@ class FlowerSearch extends Flower
      */
     public function search($params)
     {
-        $query = Flower::find();
+        $query = Flower::find()->with('keywords');
 
         // add conditions that should always apply here
 
@@ -51,7 +51,7 @@ class FlowerSearch extends Flower
                 'pageSize' => 10,
             ],
         ]);
-
+        
         $this->load($params);
 
         if (!$this->validate()) {
