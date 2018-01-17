@@ -15,8 +15,8 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
-        'keywordsString' => $keywordsString,
-        'keywordsId' => $keywordsId,
+        'oldKeywordsTitles' => $oldKeywordsTitles,
+        'allKeywordsTitles' => $allKeywordsTitles,
     ]) ?>
 
 </div>

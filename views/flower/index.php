@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
             [
                 // 'attribute' => 'title',
-                'label' => 'عنوان',
+                'label' => 'تگ ها',
                 'format' => 'datetime',
                 'filter' => false,
                 'value' => function($model) {
@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'likeCount',
             'title',
-            'createdAt',
+            'createdAt:datetime',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

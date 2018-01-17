@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Flower */
@@ -25,14 +26,30 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
+    <?= 
+    DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id',
             'likeCount',
             'title',
-            'createdAt',
+            'createdAt:datetime',
+
         ],
     ]) ?>
+ <?= 
+    Select2::widget([
+    'name' => 'keywords',
+    'value' => $keywords, // initial value
+    'data' => $keywords,
+    'maintainOrder' => true,
+    'disabled' => true,
+    'readonly' => true,
+    'options' => ['placeholder' => 'تگی موجود نیست', 'multiple' => true], 
+    'pluginOptions' => [
+        'tags' => true,
+        'maximumInputLength' => 10
+    ],
+]); ?>
 
 </div>

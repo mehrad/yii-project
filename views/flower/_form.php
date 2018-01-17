@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
-use kartik\select2\Select2
+use kartik\select2\Select2;
 
 ?>
 
@@ -11,11 +11,13 @@ use kartik\select2\Select2
 
     <?php $form = ActiveForm::begin(); ?>
 
+
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-    <?=  Select2::widget([
+    <?= 
+     Select2::widget([
     'name' => 'keywords',
-    'value' => $keywordsString, // initial value
-    'data' => $keywordsString,
+    'value' => $oldKeywordsTitles, // initial value
+    'data' => $allKeywordsTitles,
     'maintainOrder' => true,
     'toggleAllSettings' => [
         'selectLabel' => '<i class="glyphicon glyphicon-ok-circle"></i> Tag All',

@@ -40,7 +40,6 @@ class Flower extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
             'likeCount' => 'Like Count',
             'title' => 'Title',
             'createdAt' => 'Created At',

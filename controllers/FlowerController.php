@@ -88,13 +88,10 @@ class FlowerController extends Controller
             }
             return $this->redirect(['view',
              'id' => $flower->id,
-             'keywords' => $keywords,
          ]);
         } else {
             return $this->render('create', [
                 'model' => $flower,
-                'keywordsId' => $keywordsId,
-                'keywordsString' => $keywordsString,
             ]);
         }
     }
@@ -108,15 +105,7 @@ class FlowerController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $keywords = $model->getKeywords()->all();
-        $keywordsId = [];
-        $keywordsString = [];
 
-        foreach ($keywords as $key) {
-            array_push($keywordsId, $key->id);
-            array_push($keywordsString, $key->title);
-        }
-    
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             foreach (Yii::$app->request->post('keywords') as $keywordTag) {
                 $keyword = new keyword();
@@ -129,8 +118,6 @@ class FlowerController extends Controller
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'keywordsId' => $keywordsId,
-                'keywordsString' => $keywordsString,
             ]);
         }
     }
