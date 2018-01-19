@@ -13,7 +13,7 @@ use kartik\select2\Select2;
 
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-    <?=
+    <?= 
      Select2::widget([
     'name' => 'keywords',
     'value' => $oldKeywordsTitles, // initial value

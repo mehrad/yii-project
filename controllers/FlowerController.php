@@ -69,29 +69,27 @@ class FlowerController extends Controller
     public function actionCreate()
     {
         $flower = new Flower();
-       
-        $allKeywordsTitles = ArrayHelper::getColumn(Keyword::find()->all(),'title');
+        $allFlowers = Keyword::find()->all();
+        $allKeywordsTitles = ArrayHelper::getColumn($allFlowers,'title');
 
-        if ($flower->load(Yii::$app->request->post()) && $flower->save()) {
+        
+        if ($flower->load(Yii::$app->request->post()) &&  $flower->save()) {
             foreach (Yii::$app->request->post('keywords') as $keywordTag) {
                 if (is_numeric($keywordTag)){
-                    $keywordId=  array_values(ArrayHelper::map(Keyword::find()->all(), 'title' ,'id'))[0];
-                    $keyword = keyword::findOne($keywordId);
-                    $flower->link('keywords', $keyword);
-                  //  dd($keyword, $keywordTag);
+                    $keyword  = $allFlowers[$keywordTag];
+                   $flower->link('keywords', $keyword);
                 }
-                if (empty($keyword)) {
+                else {
                     $keyword = new keyword();
                     $keyword->title = $keywordTag;
                     $keyword->save();
                     $flower->link('keywords', $keyword);
                 }
-
-                
             }
             return $this->redirect(['view',
              'id' => $flower->id,
          ]);
+        
         } else {
             return $this->render('create', [
                 'model' => $flower,
@@ -109,16 +107,22 @@ class FlowerController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-       
+        $allFlowers = Keyword::find()->all();
         $oldKeywordsTitles = ArrayHelper::getColumn($model->keywords, 'title');
-        $allKeywordsTitles = ArrayHelper::getColumn(Keyword::find()->all(), 'title');
-
+        $allKeywordsTitles = ArrayHelper::getColumn($allFlowers, 'title');
+        //dd($oldKeywordsTitles, $allKeywordsTitles);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             foreach (Yii::$app->request->post('keywords') as $keywordTag) {
-                $keyword = new keyword();
-                $keyword->title = $keywordTag;
-                $keyword->save();
-                $model->link('keywords', $keyword);
+                if (is_numeric($keywordTag)){
+                    $keyword  = $allFlowers[$keywordTag];
+                    $flower->link('keywords', $keyword);
+                }
+                else {
+                    $keyword = new keyword();
+                    $keyword->title = $keywordTag;
+                    $keyword->save();
+                    $model->link('keywords', $keyword);
+                }
             }
 
             return $this->redirect(['view', 'id' => $model->id]);
