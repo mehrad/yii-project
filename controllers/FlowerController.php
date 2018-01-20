@@ -70,14 +70,14 @@ class FlowerController extends Controller
     {
         $flower = new Flower();
         $allFlowers = Keyword::find()->all();
-        $allKeywordsTitles = ArrayHelper::getColumn($allFlowers,'title');
+        $allKeywordsTitles = ArrayHelper::map($allFlowers, 'title', 'title');
 
-        
         if ($flower->load(Yii::$app->request->post()) &&  $flower->save()) {
             foreach (Yii::$app->request->post('keywords') as $keywordTag) {
-                if (is_numeric($keywordTag)){
-                    $keyword  = $allFlowers[$keywordTag];
-                   $flower->link('keywords', $keyword);
+                if (ArrayHelper::keyExists($keywordTag,$allKeywordsTitles)){
+
+                    $keyword  = Keyword::find()->where('`title` Like "'.$keywordTag.'"')->one();
+                    $flower->link('keywords', $keyword);
                 }
                 else {
                     $keyword = new keyword();
@@ -109,13 +109,12 @@ class FlowerController extends Controller
         $model = $this->findModel($id);
         $allFlowers = Keyword::find()->all();
         $oldKeywordsTitles = ArrayHelper::getColumn($model->keywords, 'title');
-        $allKeywordsTitles = ArrayHelper::getColumn($allFlowers, 'title');
-        //dd($oldKeywordsTitles, $allKeywordsTitles);
+        $allKeywordsTitles = ArrayHelper::map($allFlowers, 'title', 'title');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             foreach (Yii::$app->request->post('keywords') as $keywordTag) {
-                if (is_numeric($keywordTag)){
-                    $keyword  = $allFlowers[$keywordTag];
-                    $flower->link('keywords', $keyword);
+                if (ArrayHelper::keyExists($keywordTag, $allKeywordsTitles)){
+                    $keyword  = Keyword::find()->where('`title` Like "'.$keywordTag.'"')->one();
+                    $model->link('keywords', $keyword);
                 }
                 else {
                     $keyword = new keyword();
