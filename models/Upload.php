@@ -22,8 +22,7 @@ class Upload extends Model
     {
         if ($this->validate()) {
             try {
-
-            $this->imageFile->saveAs('yii\base\uploads' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
+            $this->imageFile->saveAs(\Yii::$app->basePath .'/uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
             } catch (ErrorException $e) {
                 Yii::warning("Can't upload file".$e);
             }
