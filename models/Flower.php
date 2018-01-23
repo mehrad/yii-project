@@ -85,15 +85,16 @@ class Flower extends \yii\db\ActiveRecord
     }
 
     public function afterSave($insert, $changedAttributes)
-    {
+    {   
         parent::afterSave($insert, $changedAttributes);
 
+        $this->unlinkAll('keywordsRelation', true); 
         foreach ($this->keywords as $keyword) {
             $obj = Keyword::find()->where(['title' => $keyword])->one();
             if ($obj == null){
                 $obj = new keyword(['title' => $keyword]);
                 $obj->save();
-            } 
+            }
             $this->link('keywordsRelation', $obj);
         }
 
