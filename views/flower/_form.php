@@ -11,10 +11,8 @@ use kartik\select2\Select2;
 
     <?php $form = ActiveForm::begin(); ?>
 
-
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-    <?= 
-     Select2::widget([
+    <?= $form->field($model, 'keywords')->widget(Select2::classname(), [
     'name' => 'keywords',
     'value' => $oldKeywordsTitles, // initial value
     'data' => $allKeywordsTitles,

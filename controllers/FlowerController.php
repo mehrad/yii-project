@@ -107,8 +107,8 @@ class FlowerController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $allFlowers = Keyword::find()->all();
         $oldKeywordsTitles = ArrayHelper::getColumn($model->keywords, 'title');
+        $allFlowers = Keyword::find()->all();
         $allKeywordsTitles = ArrayHelper::map($allFlowers, 'title', 'title');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             foreach (Yii::$app->request->post('keywords') as $keywordTag) {

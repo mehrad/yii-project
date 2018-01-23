@@ -30,7 +30,7 @@ class Flower extends \yii\db\ActiveRecord
         return [
             [['title'], 'required'],
             [['title'], 'string', 'max' => 255],
-            [['keywords'], 'safe'],
+            [['keywords'], 'required'],
         ];
     }
 
@@ -43,6 +43,7 @@ class Flower extends \yii\db\ActiveRecord
             'likeCount' => 'Like Count',
             'title' => 'Title',
             'createdAt' => 'Created At',
+            'keywords' => 'Keywords',
         ];
     }
 
