@@ -50,9 +50,9 @@ class Flower extends \yii\db\ActiveRecord
         return $this->hasMany(Comment::className(), ['flowerId' => 'id']);
     }
 
-    public function setKeywords($data)
+    public function setKeywords($value)
     {
-        $keywords = $data;
+        $this->keywords = $value;
     }
 
     public function getKeywords()
@@ -86,6 +86,8 @@ class Flower extends \yii\db\ActiveRecord
 
     public function afterSave($insert, $changedAttributes)
     {
+        parent::afterSave($insert, $changedAttributes);
+
         foreach ($this->keywords as $keyword) {
             $obj = Keyword::find()->where(['title' => $keyword])->one();
             if ($obj == null){
@@ -95,6 +97,5 @@ class Flower extends \yii\db\ActiveRecord
             $this->link('keywordsRelation', $obj);
         }
 
-        parent::afterSave($insert, $changedAttributes);
     }
 }
