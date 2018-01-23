@@ -3,16 +3,27 @@
 namespace app\models;
 
 use Yii;
+use yii\web\UploadedFile;
 use yii\helpers\ArrayHelper;
 
 class Flower extends \yii\db\ActiveRecord
 {
-    public $avatar;
+    public $imageFile;
     private $keywords;
 
     public static function tableName()
     {
         return 'flower';
+    }
+
+    public function uploadImage()
+    {
+        try {
+            $this->imageFile->saveAs(\Yii::$app->basePath . $this->imageAdress);
+        } catch (ErrorException $e) {
+            dd($e);
+        }
+        return true;
     }
 
     /**
@@ -24,7 +35,9 @@ class Flower extends \yii\db\ActiveRecord
             [['title'], 'required'],
             [['title'], 'string', 'max' => 255],
             [['keywords'], 'required'],
-            [['avatar'], 'safe'],
+            [['imageAdress'], 'safe'],
+            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg', 'maxSize' => 1000000],
+ 
         ];
     }
 
@@ -38,7 +51,7 @@ class Flower extends \yii\db\ActiveRecord
             'title' => 'Title',
             'createdAt' => 'Created At',
             'keywords' => 'Keywords',
-            'avatar' => 'Avatar',
+            'imageFile' => 'Image file',
         ];
     }
 
@@ -72,15 +85,25 @@ class Flower extends \yii\db\ActiveRecord
              ->viaTable('flower_keyword', ['flowerId' => 'id']);
     }
 
+
+    public function beforeValidate(){
+        if (isset($this->imageFile))
+        {
+        $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
+        $this->imageAdress = '/web/uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
+        }
+        return parent::beforeValidate();
+    }
+
+
     public function beforeSave($insert) 
-    {
+    { 
         if (!parent::beforeSave($insert)) {
              return false;
         }
         if ($insert) {
             $this->createdAt = time();
         }
-
         return true;
     }
 
@@ -97,6 +120,7 @@ class Flower extends \yii\db\ActiveRecord
             }
             $this->link('keywordsRelation', $obj);
         }
-
+         if (!$this->uploadImage())
+            return false;
     }
 }

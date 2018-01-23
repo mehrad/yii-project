@@ -5,11 +5,12 @@ namespace app\controllers;
 use Yii;
 use app\models\Flower;
 use app\models\Keyword;
-use app\models\FlowerSearch;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use app\models\FlowerSearch;
+use yii\web\NotFoundHttpException;
 /**
  * FlowerController implements the CRUD actions for Flower model.
  */
@@ -59,6 +60,7 @@ class FlowerController extends Controller
 
     public function actionCreate()
     {
+
         $flower = new Flower();
         if ($flower->load(Yii::$app->request->post()) && $flower->save()) {
             return $this->redirect(['view', 'id' => $flower->id]);

@@ -40,5 +40,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ]
         ],
     ]) ?>
+    <?= Html::img('/basic' . $model->imageAdress, ['alt'=>'some', 'class'=>'thing']) ?>
 
 </div>
