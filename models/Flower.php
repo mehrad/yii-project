@@ -3,20 +3,13 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
-/**
- * This is the model class for table "flower".
- *
- * @property integer $id
- * @property integer $likeCount
- * @property string $title
- * @property integer $createdAt
- *
- * @property Comment[] $comments
- * @property FlowerKeyword[] $flowerKeywords
- */
 class Flower extends \yii\db\ActiveRecord
 {
+    public $avatar;
+    private $keywords;
+
     public static function tableName()
     {
         return 'flower';
@@ -31,6 +24,7 @@ class Flower extends \yii\db\ActiveRecord
             [['title'], 'required'],
             [['title'], 'string', 'max' => 255],
             [['keywords'], 'required'],
+            [['avatar'], 'safe'],
         ];
     }
 
@@ -44,6 +38,7 @@ class Flower extends \yii\db\ActiveRecord
             'title' => 'Title',
             'createdAt' => 'Created At',
             'keywords' => 'Keywords',
+            'avatar' => 'Avatar',
         ];
     }
 
@@ -55,10 +50,23 @@ class Flower extends \yii\db\ActiveRecord
         return $this->hasMany(Comment::className(), ['flowerId' => 'id']);
     }
 
+    public function setKeywords($data)
+    {
+        $keywords = $data;
+    }
+
+    public function getKeywords()
+    {
+        if (!isset($this->keywords)) {
+            $this->keywords = ArrayHelper::getColumn($this->getKeywordsRelation()->all(), 'title');
+        }
+        return $this->keywords;
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getKeywords()
+    public function getKeywordsRelation()
     {
         return $this->hasMany(Keyword::className(), ['id' => 'keywordId'])
              ->viaTable('flower_keyword', ['flowerId' => 'id']);
@@ -74,5 +82,19 @@ class Flower extends \yii\db\ActiveRecord
         }
 
         return true;
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        foreach ($this->keywords as $keyword) {
+            $obj = Keyword::find()->where(['title' => $keyword])->one();
+            if ($obj == null){
+                $obj = new keyword(['title' => $keyword]);
+                $obj->save();
+            } 
+            $this->link('keywordsRelation', $obj);
+        }
+
+        parent::afterSave($insert, $changedAttributes);
     }
 }

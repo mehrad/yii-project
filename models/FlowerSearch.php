@@ -41,7 +41,7 @@ class FlowerSearch extends Flower
      */
     public function search($params)
     {
-        $query = Flower::find()->with('keywords');
+        $query = Flower::find()->with('keywordsRelation');
 
         // add conditions that should always apply here
 

@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'تگ ها',
                 'value' => function($model) { 
-                    return  implode(',', ArrayHelper::getColumn($model->keywords,'title'));
+                    return  implode(',', $model->getKeywords());
                 },
                 
             ],

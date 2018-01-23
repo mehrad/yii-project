@@ -52,49 +52,18 @@ class FlowerController extends Controller
      */
     public function actionView($id)
     {
-        $flowerModel = $this->findModel($id);
-        $keywords = ArrayHelper::getColumn($flowerModel->keywords,'title');
-        //dd($keywords);
         return $this->render('view', [
-            'model' => $flowerModel,
-            'keywords' => $keywords,
+            'model' => $this->findModel($id)
         ]);
     }
 
-    /**
-     * Creates a new Flower model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
     public function actionCreate()
     {
         $flower = new Flower();
-        $allFlowers = Keyword::find()->all();
-        $allKeywordsTitles = ArrayHelper::map($allFlowers, 'title', 'title');
-
-        if ($flower->load(Yii::$app->request->post()) &&  $flower->save()) {
-            foreach (Yii::$app->request->post('keywords') as $keywordTag) {
-                if (ArrayHelper::keyExists($keywordTag,$allKeywordsTitles)){
-
-                    $keyword  = Keyword::find()->where('`title` Like "'.$keywordTag.'"')->one();
-                    $flower->link('keywords', $keyword);
-                }
-                else {
-                    $keyword = new keyword();
-                    $keyword->title = $keywordTag;
-                    $keyword->save();
-                    $flower->link('keywords', $keyword);
-                }
-            }
-            return $this->redirect(['view',
-             'id' => $flower->id,
-         ]);
-        
+        if ($flower->load(Yii::$app->request->post()) && $flower->save()) {
+            return $this->redirect(['view', 'id' => $flower->id]);
         } else {
-            return $this->render('create', [
-                'model' => $flower,
-                'allKeywordsTitles' => $allKeywordsTitles,
-            ]);
+            return $this->render('create', ['model' => $flower]);
         }
     }
 
@@ -107,29 +76,11 @@ class FlowerController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $oldKeywordsTitles = ArrayHelper::getColumn($model->keywords, 'title');
-        $allFlowers = Keyword::find()->all();
-        $allKeywordsTitles = ArrayHelper::map($allFlowers, 'title', 'title');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            foreach (Yii::$app->request->post('keywords') as $keywordTag) {
-                if (ArrayHelper::keyExists($keywordTag, $allKeywordsTitles)){
-                    $keyword  = Keyword::find()->where('`title` Like "'.$keywordTag.'"')->one();
-                    $model->link('keywords', $keyword);
-                }
-                else {
-                    $keyword = new keyword();
-                    $keyword->title = $keywordTag;
-                    $keyword->save();
-                    $model->link('keywords', $keyword);
-                }
-            }
-
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'oldKeywordsTitles' => $oldKeywordsTitles,
-                'allKeywordsTitles' => $allKeywordsTitles,
             ]);
         }
     }
