@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Delete', ['delet', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -40,6 +40,21 @@ $this->params['breadcrumbs'][] = $this->title;
             ]
         ],
     ]) ?>
-    <?= Html::img('/basic' . $model->imageAdress, ['alt'=>'some', 'class'=>'thing']) ?>
+    
+    <?php
+       // dd($model);
+        if (!is_null($model->imageAdress))
+        {
+            echo Html::img('/basic' . $model->imageAdress, ['alt'=>'some', 'class'=>'thing']);
+            echo Html::a('Delete', ['deleteimage', 'id' => $model->id], [
+                    'class' => 'btn btn-danger',
+                    'data' => [
+                        'confirm' => 'Are you sure you want to delete this item?',
+                        'method' => 'post',
+                    ],
+            ]); 
+        }
+    ?>
+    
 
 </div>

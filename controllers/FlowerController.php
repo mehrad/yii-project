@@ -100,6 +100,20 @@ class FlowerController extends Controller
         return $this->redirect(['index']);
     }
 
+
+    public function actionDeleteimage($id)
+    {
+        if (!isset($id))
+            return $this->redirect(['index']);
+
+        $model = $this->findModel($id);
+        $model->imageFile = null;
+        $model->imageAdress = null;
+        $model->save();
+       // dd($model);
+        return $this->redirect(['view', 'id' => $model->id]);
+    }
+
     /**
      * Finds the Flower model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

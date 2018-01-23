@@ -36,7 +36,7 @@ class Flower extends \yii\db\ActiveRecord
             [['title'], 'string', 'max' => 255],
             [['keywords'], 'required'],
             [['imageAdress'], 'safe'],
-            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg', 'maxSize' => 1000000],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxSize' => 1000000],
  
         ];
     }
@@ -87,10 +87,13 @@ class Flower extends \yii\db\ActiveRecord
 
 
     public function beforeValidate(){
-        if (isset($this->imageFile))
-        {
+       
+  
         $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
-        $this->imageAdress = '/web/uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
+        
+        if (!is_null($this->imageFile))
+        {
+            $this->imageAdress = '/web/uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
         }
         return parent::beforeValidate();
     }
@@ -120,7 +123,7 @@ class Flower extends \yii\db\ActiveRecord
             }
             $this->link('keywordsRelation', $obj);
         }
-         if (!$this->uploadImage())
+         if (!is_null($this->imageFile) && $this->imageFile != '' && !$this->uploadImage())
             return false;
     }
 }
