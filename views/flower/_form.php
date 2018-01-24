@@ -30,7 +30,22 @@ use yii\helpers\ArrayHelper;
         ],
     ]); ?>
 
-   <?= $form->field($model, 'imageFile')->fileInput() ?>
+    <?php
+        if (!is_null($model->imageAdress))
+        {
+            echo Html::img('/basic' . $model->imageAdress, ['alt'=>'some', 'class'=>'thing']);
+            echo Html::a('Delete', ['deleteimage', 'id' => $model->id], [
+                    'class' => 'btn btn-danger',
+                    'data' => [
+                        'confirm' => 'Are you sure you want to delete this item?',
+                        'method' => 'post',
+                    ],
+            ]); 
+        } else {
+            echo $form->field($model, 'imageFile')->fileInput();
+        }
+    ?>
+
    
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

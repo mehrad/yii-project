@@ -110,7 +110,6 @@ class FlowerController extends Controller
         $model->imageFile = null;
         $model->imageAdress = null;
         $model->save();
-       // dd($model);
         return $this->redirect(['view', 'id' => $model->id]);
     }
 

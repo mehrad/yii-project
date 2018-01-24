@@ -36,6 +36,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 
             ],
+            [
+                'attribute' => 'img',
+                'format' => 'html',
+                'label' => 'ImageColumnLable',
+                'value' => function ($model) {
+                return Html::img('/basic' . $model->imageAdress,
+                    ['width' => '60px']);
+                },
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

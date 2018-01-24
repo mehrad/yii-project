@@ -40,21 +40,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ]
         ],
     ]) ?>
-    
-    <?php
-       // dd($model);
-        if (!is_null($model->imageAdress))
+
+    <?php 
+     if (!is_null($model->imageAdress))
         {
             echo Html::img('/basic' . $model->imageAdress, ['alt'=>'some', 'class'=>'thing']);
-            echo Html::a('Delete', ['deleteimage', 'id' => $model->id], [
-                    'class' => 'btn btn-danger',
-                    'data' => [
-                        'confirm' => 'Are you sure you want to delete this item?',
-                        'method' => 'post',
-                    ],
-            ]); 
         }
     ?>
     
-
 </div>
