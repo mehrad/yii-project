@@ -1,12 +1,50 @@
 <?php
 
 use yii\helpers\Html;
+use yii\web\View;
 use app\models\Keyword;
 use kartik\file\FileInput;
 use yii\widgets\ActiveForm;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
+?>
+
+<?php
+    $modelId = $model->id;
+    $modelAdress = $model->imageAdress;
+    $adress = \Yii::$app->getUrlManager()->createUrl(['flower/deleteimage', 'id' => $modelId]);
+    $script = "
+    $(\"#ajaxButton\").click(function (){ 
+                $.ajax({
+                    url: '$adress' ,
+                    type: 'POST',
+                    data: { id: $modelId },
+                    success: function(data) {
+                        $(\"#ajaxButton\").fadeOut();
+                        $(\"#myImage\").fadeOut();
+                        $(\"#insertImage\").fadeIn();
+                     }
+                    , error: function (request, status, error) {
+                      alert(\"failed\");
+                    }
+                }); 
+            });" ;
+
+    if (!empty($modelAdress))
+        $script = $script . "$(document).ready(function(){
+                    $(\"#insertImage\").hide();
+                    });";
+    else 
+        $script = $script . "$(document).ready(function(){
+                    $(\"#ajaxButton\").hide();
+                    });";
+    $this->registerJs(
+        $script,
+        View::POS_READY,
+        'my-button-handler'
+);
 ?>
 
 <div class="flower-form">
@@ -30,23 +68,24 @@ use yii\helpers\ArrayHelper;
         ],
     ]); ?>
 
+
     <?php
         if (!is_null($model->imageAdress))
         {
-            echo Html::img('/basic' . $model->imageAdress, ['alt'=>'some', 'class'=>'thing']);
-            echo Html::a('Delete', ['deleteimage', 'id' => $model->id], [
-                    'class' => 'btn btn-danger',
-                    'data' => [
-                        'confirm' => 'Are you sure you want to delete this item?',
-                        'method' => 'post',
-                    ],
-            ]); 
-        } else {
-            echo $form->field($model, 'imageFile')->fileInput();
-        }
-    ?>
+            echo Html::img('/basic' . $model->imageAdress, ['id' => "myImage", 'alt'=>'some', 'class'=>'thing']);
+            // echo Html::a('Delete Image', ['deleteimage', 'id' => $model->id], [
+            //         'id'    => 'ajaxButton',
+            //         'class' => 'btn btn-danger',
+            //         'data' => [
+            //             'confirm' => 'Are you sure you want to delete this item?',
+            //             'method' => 'post',
+            //         ],
+            // ]); 
 
-   
+        }
+        echo $form->field($model, 'imageFile')->fileInput(['id' => "insertImage"]);
+    ?>
+    <a id='ajaxButton' class='btn btn-danger'>Delete image</a>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

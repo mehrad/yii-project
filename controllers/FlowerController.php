@@ -94,7 +94,7 @@ class FlowerController extends Controller
      * @return mixed
      */
     public function actionDelete($id)
-    {
+    {   
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -105,11 +105,12 @@ class FlowerController extends Controller
     {
         if (!isset($id))
             return $this->redirect(['index']);
-
         $model = $this->findModel($id);
         $model->imageFile = null;
         $model->imageAdress = null;
         $model->save();
+        if ( Yii::$app->request->isAjax) 
+            return  \yii\helpers\Json::encode($model);
         return $this->redirect(['view', 'id' => $model->id]);
     }
 
