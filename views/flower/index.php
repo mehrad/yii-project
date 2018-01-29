@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             'createdAt:datetime',
             [
-                'label' => 'تگ ها',
+                'label' => 'Tags',
                 'value' => function($model) { 
                     return  implode(',', $model->getKeywords());
                 },

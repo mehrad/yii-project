@@ -106,6 +106,12 @@ class FlowerController extends Controller
         if (!isset($id))
             return $this->redirect(['index']);
         $model = $this->findModel($id);
+        $img = \Yii::$app->basePath . $model->imageAdress;
+        if($img){
+            if (!unlink($img)) {
+                return false;
+            }
+        }
         $model->imageFile = null;
         $model->imageAdress = null;
         $model->save();

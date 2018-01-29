@@ -15,22 +15,26 @@ use yii\helpers\Url;
     $modelId = $model->id;
     $modelAdress = $model->imageAdress;
     $adress = \Yii::$app->getUrlManager()->createUrl(['flower/deleteimage', 'id' => $modelId]);
-    $script = "
-    $(\"#ajaxButton\").click(function (){ 
-                $.ajax({
-                    url: '$adress' ,
-                    type: 'POST',
-                    data: { id: $modelId },
-                    success: function(data) {
-                        $(\"#ajaxButton\").fadeOut();
-                        $(\"#myImage\").fadeOut();
-                        $(\"#insertImage\").fadeIn();
-                     }
-                    , error: function (request, status, error) {
-                      alert(\"failed\");
-                    }
-                }); 
-            });" ;
+    $script = "";
+    if (!empty($modelId))
+    {
+      $script = $script . "
+        $(\"#ajaxButton\").click(function (){ 
+                    $.ajax({
+                        url: '$adress' ,
+                        type: 'POST',
+                        data: { id: $modelId },
+                        success: function(data) {
+                            $(\"#ajaxButton\").fadeOut();
+                            $(\"#myImage\").fadeOut();
+                            $(\"#insertImage\").fadeIn();
+                         }
+                        , error: function (request, status, error) {
+                          alert(\"failed\");
+                        }
+                    }); 
+                });" ;
+    }
 
     if (!empty($modelAdress))
         $script = $script . "$(document).ready(function(){
@@ -85,7 +89,9 @@ use yii\helpers\Url;
         }
         echo $form->field($model, 'imageFile')->fileInput(['id' => "insertImage"]);
     ?>
+
     <a id='ajaxButton' class='btn btn-danger'>Delete image</a>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

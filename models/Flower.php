@@ -16,6 +16,11 @@ class Flower extends \yii\db\ActiveRecord
         return 'flower';
     }
 
+    public function deleteImage() 
+    {
+        dd('here');
+        return false ;
+    }
     public function uploadImage()
     {
         try {
@@ -90,14 +95,29 @@ class Flower extends \yii\db\ActiveRecord
        
   
         $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
-        
+        $time = Yii::$app->formatter->asDate('now', 'php:Y-m-d');
         if (!is_null($this->imageFile))
         {
-            $this->imageAdress = '/web/uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
+            $this->imageAdress = '/web/uploads/' . $this->imageFile->baseName . '_' . $time .'.' . $this->imageFile->extension;
         }
         return parent::beforeValidate();
     }
 
+
+    public function beforeDelete() 
+    {
+        if (!parent::beforeDelete()) {
+           return false;
+        }
+  
+        $img = \Yii::$app->basePath . $this->imageAdress;
+        if($img){
+            if (!unlink($img)) {
+                return false;
+            }
+        }
+       return true;
+    }
 
     public function beforeSave($insert) 
     { 
