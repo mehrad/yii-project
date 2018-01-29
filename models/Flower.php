@@ -11,24 +11,20 @@ class Flower extends \yii\db\ActiveRecord
     public $imageFile;
     private $keywords;
 
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => \app\components\FileBehavior::className(),
+                'fileAddressAttribute' => 'imageAdress'
+            ]
+        ];
+
+    }
+
     public static function tableName()
     {
         return 'flower';
-    }
-
-    public function deleteImage() 
-    {
-        dd('here');
-        return false ;
-    }
-    public function uploadImage()
-    {
-        try {
-            $this->imageFile->saveAs(\Yii::$app->basePath . $this->imageAdress);
-        } catch (ErrorException $e) {
-            dd($e);
-        }
-        return true;
     }
 
     /**
@@ -90,35 +86,6 @@ class Flower extends \yii\db\ActiveRecord
              ->viaTable('flower_keyword', ['flowerId' => 'id']);
     }
 
-
-    public function beforeValidate(){
-       
-  
-        $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
-        $time = Yii::$app->formatter->asDate('now', 'php:Y-m-d');
-        if (!is_null($this->imageFile))
-        {
-            $this->imageAdress = '/web/uploads/' . $this->imageFile->baseName . '_' . $time .'.' . $this->imageFile->extension;
-        }
-        return parent::beforeValidate();
-    }
-
-
-    public function beforeDelete() 
-    {
-        if (!parent::beforeDelete()) {
-           return false;
-        }
-  
-        $img = \Yii::$app->basePath . $this->imageAdress;
-        if($img){
-            if (!unlink($img)) {
-                return false;
-            }
-        }
-       return true;
-    }
-
     public function beforeSave($insert) 
     { 
         if (!parent::beforeSave($insert)) {
@@ -143,7 +110,5 @@ class Flower extends \yii\db\ActiveRecord
             }
             $this->link('keywordsRelation', $obj);
         }
-         if (!is_null($this->imageFile) && $this->imageFile != '' && !$this->uploadImage())
-            return false;
     }
 }

@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php 
      if (!is_null($model->imageAdress))
         {
-            echo Html::img('/basic' . $model->imageAdress, ['alt'=>'some', 'class'=>'thing']);
+            echo Html::img($model->getFileUrl(), ['alt'=>'some', 'class'=>'thing']);
         }
     ?>
     

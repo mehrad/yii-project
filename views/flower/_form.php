@@ -76,7 +76,7 @@ use yii\helpers\Url;
     <?php
         if (!is_null($model->imageAdress))
         {
-            echo Html::img('/basic' . $model->imageAdress, ['id' => "myImage", 'alt'=>'some', 'class'=>'thing']);
+            echo Html::img($model->getFileUrl(), ['id' => "myImage", 'alt'=>'some', 'class'=>'thing']);
             // echo Html::a('Delete Image', ['deleteimage', 'id' => $model->id], [
             //         'id'    => 'ajaxButton',
             //         'class' => 'btn btn-danger',
