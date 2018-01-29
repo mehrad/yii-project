@@ -16,10 +16,9 @@ class Flower extends \yii\db\ActiveRecord
         return [
             [
                 'class' => \app\components\FileBehavior::className(),
-                'fileAddressAttribute' => 'imageAdress'
+                'fileNameAttribute' => 'imageAdress'
             ]
         ];
-
     }
 
     public static function tableName()
@@ -37,7 +36,7 @@ class Flower extends \yii\db\ActiveRecord
             [['title'], 'string', 'max' => 255],
             [['keywords'], 'required'],
             [['imageAdress'], 'safe'],
-            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxSize' => 1000000],
+            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg', 'maxSize' => 1000000],
  
         ];
     }
@@ -100,7 +99,7 @@ class Flower extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {   
         parent::afterSave($insert, $changedAttributes);
-
+        $hasan = $this->getKeywords();
         $this->unlinkAll('keywordsRelation', true); 
         foreach ($this->keywords as $keyword) {
             $obj = Keyword::find()->where(['title' => $keyword])->one();

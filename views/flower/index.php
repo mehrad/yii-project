@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'label' => 'ImageColumnLable',
                 'value' => function ($model) {
-                return Html::img('/basic' . $model->imageAdress,
+                return Html::img($model->getFileUrl(),
                     ['width' => '60px']);
                 },
             ],

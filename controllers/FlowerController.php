@@ -103,21 +103,10 @@ class FlowerController extends Controller
 
     public function actionDeleteimage($id)
     {
-        if (!isset($id))
-            return $this->redirect(['index']);
-        $model = $this->findModel($id);
-        $img = \Yii::$app->basePath . $model->imageAdress;
-        if($img){
-            if (!unlink($img)) {
-                return false;
-            }
+        if (!Yii::$app->request->isAjax) {
+            throw new \Exception("DUFUQ NOT AjAX?!");
         }
-        $model->imageFile = null;
-        $model->imageAdress = null;
-        $model->save();
-        if ( Yii::$app->request->isAjax) 
-            return  \yii\helpers\Json::encode($model);
-        return $this->redirect(['view', 'id' => $model->id]);
+        return $this->findModel($id)->deleteFile();
     }
 
     /**

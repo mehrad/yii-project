@@ -72,23 +72,10 @@ use yii\helpers\Url;
         ],
     ]); ?>
 
-
-    <?php
-        if (!is_null($model->imageAdress))
-        {
-            echo Html::img($model->getFileUrl(), ['id' => "myImage", 'alt'=>'some', 'class'=>'thing']);
-            // echo Html::a('Delete Image', ['deleteimage', 'id' => $model->id], [
-            //         'id'    => 'ajaxButton',
-            //         'class' => 'btn btn-danger',
-            //         'data' => [
-            //             'confirm' => 'Are you sure you want to delete this item?',
-            //             'method' => 'post',
-            //         ],
-            // ]); 
-
-        }
-        echo $form->field($model, 'imageFile')->fileInput(['id' => "insertImage"]);
-    ?>
+    <?php if ($model->hasFile()): ?>
+        <?= Html::img($model->getFileUrl(), ['id' => "myImage", 'alt'=>'some']) ?>
+    <?php endif ?>
+    <?= $form->field($model, 'imageFile')->fileInput(['id' => "insertImage"]) ?>
 
     <a id='ajaxButton' class='btn btn-danger'>Delete image</a>
 
