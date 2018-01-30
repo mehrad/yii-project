@@ -49,8 +49,7 @@ class Flower extends \yii\db\ActiveRecord
         return [
             'likeCount' => 'Like Count',
             'title' => 'Title',
-            'createdAt' => 'Created At',
-            'keywords' => 'Keywords',
+            'keywords' => 'Tags',
             'imageFile' => 'Image file',
         ];
     }

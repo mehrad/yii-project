@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'createdAt:datetime',
             [
                 'label' => 'Tags',
+                'attribute' => 'tag',
                 'value' => function($model) { 
                     return  implode(',', $model->getKeywords());
                 },
@@ -45,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['width' => '60px']);
                 },
             ],
-
+       
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

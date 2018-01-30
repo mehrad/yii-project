@@ -36,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'createdAt:datetime',
             [
                 'label' => 'تگ ها',
+                'attribute' => 'keywords',
                 'value' => implode(', ', $model->getKeywords()),
             ]
         ],

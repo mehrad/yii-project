@@ -12,6 +12,7 @@ use app\models\Flower;
  */
 class FlowerSearch extends Flower
 {
+    public $tag;
     /**
      * @inheritdoc
      */
@@ -20,6 +21,7 @@ class FlowerSearch extends Flower
         return [
             [['id'], 'integer'],
             [['title'], 'safe'],
+            [['tag'], 'safe'],
         ];
     }
 
@@ -62,7 +64,6 @@ class FlowerSearch extends Flower
 
         //grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id
         ]);
 
         $query->andFilterWhere(['like%', 'title', $this->title]);
