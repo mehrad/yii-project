@@ -43,7 +43,7 @@ class FlowerSearch extends Flower
      */
     public function search($params)
     {
-        $query = Flower::find()->with('keywordsRelation');
+        $query = Flower::find()->innerJoinWith('keywordsRelation');
 
         // add conditions that should always apply here
 
@@ -64,9 +64,12 @@ class FlowerSearch extends Flower
 
         //grid filtering conditions
         $query->andFilterWhere([
+            'id' => $this->id,
         ]);
 
         $query->andFilterWhere(['like%', 'title', $this->title]);
+
+        $query->andFilterWhere(['like', 'keyword.title', $this->tag]);
 
         return $dataProvider;
     }
